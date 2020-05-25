@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - WebForum for Mens</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top header-color">
+        <div class="container">
+            <div class="header-color menu-color">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink(" Name aplication", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav menu-align">
+                        <li>@Html.ActionLink("Home page", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Information", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contacts", "Contact", "Home")</li>
+
+                        <li>@Html.ActionLink("All posts", "Index", "Post")</li>
+
+                    </ul>
+                    @*<ul class="menu-align">*@
+                        @Html.Partial("_LoginPartial")
+                    @*</ul>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+
+        <div class="wrapper">
+            <aside class="asidebar">
+                <img class="logo" src="~/Images/logo.jpg" />
+            </aside>
+            <div class="title_container">
+                <h1>
+                    MENS FORUM
+                </h1>
+            </div>
+        </div>
+
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - All rights reserved</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
