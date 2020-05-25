@@ -53,6 +53,8 @@ namespace InetForum.Controllers
 
             return new string[] { weatherResponse.Name, weatherResponse.Main.Temp.ToString() };
             
+
+            //url= "http://mourits-lyrics.p.rapidapi.com&appid=SING-UP-FOR-KEY"
         }
 
         [Authorize(Roles = "admin")]
@@ -63,7 +65,7 @@ namespace InetForum.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize]       
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
