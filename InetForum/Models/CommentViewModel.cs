@@ -11,6 +11,7 @@ namespace InetForum.Models
         public string Text { get; set; }
         public DateTime DateTime { get; set; }
 
+       
         public int PostViewModelId { get; set; }
         public PostViewModel PostViewModel { get; set; }
 

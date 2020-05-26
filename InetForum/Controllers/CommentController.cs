@@ -2,6 +2,8 @@
 using BLL.Interfaces;
 using BLL.Models;
 using InetForum.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ namespace InetForum.Controllers
 {
     public class CommentController : Controller
     {
+        private readonly ICategoryService _categoryService;
         private readonly ICommentService _commentService;
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
@@ -20,11 +23,23 @@ namespace InetForum.Controllers
         {
 
         }
-        public CommentController(ICommentService service, IPostService postservice, IMapper mapper)
+        public CommentController(ICommentService service, IPostService postservice, ICategoryService categoryService, IMapper mapper)
         {
             _mapper = mapper;
             _commentService = service;
             _postService = postservice;
+            _categoryService = categoryService;
+        }
+
+        public IList<string> GetActiveUserRole()
+        {
+            IList<string> roles = new List<string> { "Роль не определена" };
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                    .GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            return new List<string>(roles);
         }
 
         // GET: Comment
@@ -45,6 +60,7 @@ namespace InetForum.Controllers
 
         public ActionResult CommentByPost(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             var allComments = _commentService.GetAll();
             var comments = _mapper.Map<IEnumerable<CommentViewModel>>(allComments);
             if (id != null && id != 0)
@@ -66,14 +82,19 @@ namespace InetForum.Controllers
             return View(commentsList);
         }
 
+        [Authorize]
         // GET: Comment/Create
         public ActionResult Create()
         {
+            var allCategories = _categoryService.GetAll();
+            var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(allCategories);
+            SelectList selectLists = new SelectList(categories, "Id", "Title");
+            ViewBag.Categories = selectLists;
             return View();
         }
 
         // POST: Comment/Create
-        [HttpPost]
+        [HttpPost]        
         public ActionResult Create(CommentViewModel model)
         {
             if (ModelState.IsValid)

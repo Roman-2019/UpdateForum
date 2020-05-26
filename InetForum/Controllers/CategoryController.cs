@@ -2,6 +2,8 @@
 using BLL.Interfaces;
 using BLL.Models;
 using InetForum.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +27,21 @@ namespace InetForum.Controllers
             _categoryService = service;
         }
 
+        public IList<string> GetActiveUserRole()
+        {
+            IList<string> roles = new List<string> { "Роль не определена" };
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                    .GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            return new List<string>(roles);
+        }
+
         // GET: Category
         public ActionResult Index()
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             var allCategories = _categoryService.GetAll();
             var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(allCategories);
             return View(categories);

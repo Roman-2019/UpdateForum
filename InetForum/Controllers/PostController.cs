@@ -3,16 +3,20 @@ using BLL.Interfaces;
 using BLL.Models;
 using BLL.Services;
 using InetForum.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+//using InetForum.Service;
 
 namespace InetForum.Controllers
 {
     public class PostController : Controller
     {
+        //private readonly ActiveUserRole activeUserRole;
 
         private readonly IPostService _postService;
         private readonly ICategoryService _categoryService;
@@ -29,9 +33,24 @@ namespace InetForum.Controllers
             _categoryService = categoryservice;
         }
 
+        public IList<string> GetActiveUserRole()
+        {
+            IList<string> roles = new List<string> { "Роль не определена" };
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                    .GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            return new List<string>(roles);
+            //ViewBag.ActiveUserRole = new List<string>(roles);
+            //return View(roles);
+        }
+
+
         // GET: Post
         public ActionResult Index()
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             var allPosts = _postService.GetAll();
             var posts = _mapper.Map<IEnumerable<PostViewModel>>(allPosts);
             return View(posts);
@@ -56,11 +75,14 @@ namespace InetForum.Controllers
 
             var allCategories = _categoryService.GetAll();
             var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(allCategories);
+            
             PostCategory postsList = new PostCategory
             {
                 Posts = posts,
                 Categories = new SelectList(categories, "Id", "Title ")
             };
+
+            ViewBag.CategoryTitle = postsList.Categories;
 
             return View(postsList);
         }

@@ -217,6 +217,7 @@
     <Compile Include="Models\TemperatureInfo.cs" />
     <Compile Include="Models\WeatherResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ActiveUserRole.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +308,7 @@
     <Content Include="Views\Tag\Create.cshtml" />
     <Content Include="Views\Tag\Edit.cshtml" />
     <Content Include="Views\Tag\Delete.cshtml" />
+    <Content Include="Views\Home\GetActiveUserRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

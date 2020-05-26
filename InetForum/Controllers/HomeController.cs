@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BLL.Interfaces;
 using InetForum.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -33,9 +35,11 @@ namespace InetForum.Controllers
             ViewBag.Categories = categories;
 
             ViewBag.OpenWeathers = OpenWeatherMap();
-
+            //ViewBag.ActiveUserRole = GetActiveUserRole();
+            
             return View();
         }
+
 
         public IEnumerable<string> OpenWeatherMap()
         {

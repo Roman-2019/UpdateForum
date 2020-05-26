@@ -31,9 +31,12 @@
     }
 </table>
 
+@if (@ViewBag.ActiveUserRole[0]=="admin") 
+{
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+}
 @*<table class="table">
         <tr>
             <th>
@@ -80,3 +83,7 @@
     }
 
     </table>*@
+@for (int i=0;i<@ViewBag.ActiveUserRole.Count;i++)
+{
+    <p>@ViewBag.ActiveUserRole[i]</p>
+}

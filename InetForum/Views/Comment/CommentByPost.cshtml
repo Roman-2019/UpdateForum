@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CommentByPost   @Html.DisplayFor(model => model.PostViewModel.Title)</h2>
+<h2>@Html.DisplayFor(model => model.PostViewModel.Title)</h2>
 
 <div class="comments-block">
     @Html.DisplayFor(model => model.PostViewModel.Title)
@@ -12,13 +12,25 @@
         @Html.DisplayFor(model => model.PostViewModel.Text)
     </div>
     <hr />
-    <p> Comments </p>
-    <div style="border:1px solid black">
+    <h2> Комментарии:</h2>
+
+    <div>
         @foreach (var item in Model.Comments)
         {
-            <p>
+            <p class="jumbotron">
                 @Html.DisplayFor(modelItem => item.Text)
             </p>
+            if (ViewBag.ActiveUserRole[0] == "admin")
+            {
+                <span> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
+            }
         }
     </div>
+
+    <hr />
+    <p>
+        @Html.ActionLink("Добавить комментарий", "Create")
+        @*, new { categoryId=Model.PostViewModel.CategoryViewModelId, id=Model.PostViewModel.Id}*@
+    </p>
+    <hr />
 </div>

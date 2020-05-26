@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PostByCategory</h2>
+<h2>Темы постов по выбранной Вами категории </h2>
 
 @*<form method="get">
         <div class="form-inline">
@@ -15,26 +15,31 @@
             <input type="submit" value="submit" class="btn btn-default" />
         </div>
     </form>*@
-<table style="font-size:larger">
+<table class="menu-align" style="font-size:larger; width:55%">
     <tr>
-        <th>Title Category</th>
-        <th style="padding-left:35px">Discription posts</th>
+        <th>Категория </th>
+        <th style="padding-left:35px">Тема</th>
         <th style="padding-left:35px"></th>
     </tr>
+</table>
 
     @foreach (var item in Model.Posts)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryViewModel.Title)
-            </td>
-            <td style="padding-left:35px">
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td style="padding-left:35px">
-                @*<a href="~/Post/Details/@item.Id">Go to details</a>*@
-                @Html.RouteLink("Go to details", new { controller = "Comment", action = "CommentByPost", id = item.Id })
-            </td>
-        </tr>
+        <div class="jumbotron" style="padding-left:15px">
+            <table class="menu-align" style="font-size:larger; width:100%">
+                <tr>
+                    <td style="width:20%">
+                        @Html.DisplayFor(modelItem => item.CategoryViewModel.Title)
+                    </td>
+                    <td style="width:60%">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td style="width:20%">
+                        @*<a href="~/Post/Details/@item.Id">Go to details</a>*@
+                        @Html.RouteLink("Просмотр", new { controller = "Comment", action = "CommentByPost", id = item.Id })
+                    </td>
+                </tr>
+            </table>
+        </div>
     }
-</table>
+
