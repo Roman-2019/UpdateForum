@@ -147,3 +147,7 @@ E:\C\InetForum\InetForum\bin\BLL.pdb
 E:\C\InetForum\InetForum\bin\BLL.dll.config
 E:\C\InetForum\InetForum\bin\DAL.pdb
 E:\C\InetForum\InetForum\bin\DAL.dll.config
+E:\C\InetForum\InetForum\bin\PagedList.dll
+E:\C\InetForum\InetForum\bin\PagedList.Mvc.dll
+E:\C\InetForum\InetForum\bin\PagedList.xml
+E:\C\InetForum\InetForum\bin\PagedList.Mvc.xml

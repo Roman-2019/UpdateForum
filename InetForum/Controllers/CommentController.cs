@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace InetForum.Controllers
 {
@@ -80,6 +82,21 @@ namespace InetForum.Controllers
             return View(commentsList);
         }
 
+        public ActionResult PaginationComment(int id, int? page) 
+        {
+            ViewBag.PostId = id;
+            ViewBag.ActiveUserRole = GetActiveUserRole();
+            var allComments = _commentService.GetAll();
+            var comments = _mapper.Map<IEnumerable<CommentViewModel>>(allComments);
+            if (id != null && id != 0)
+            {
+                comments = comments.Where(x => x.PostViewModel.Id == id);
+            }
+            int PageSize = 2;
+            int pageNumber = (page ?? 1);
+            return PartialView(comments.ToPagedList(pageNumber,PageSize));
+        }
+
         [Authorize]
         // GET: Comment/Create
         public ActionResult Create(int newPostId, int newAuthorId, DateTime newDataComment)
@@ -103,9 +120,8 @@ namespace InetForum.Controllers
         [HttpPost]        
         public ActionResult Create(CommentViewModel model)
         {
-            var newComment = new CommentViewModel();
             //newComment.AuthorViewModelId = User.Identity.GetUserId();
-            newComment.DateTime = DateTime.Now.Date;
+            model.DateTime = DateTime.Now.Date;
             //var postId = PostViewModelId;
             if (ModelState.IsValid)
             {

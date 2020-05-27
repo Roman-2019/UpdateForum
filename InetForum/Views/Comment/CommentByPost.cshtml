@@ -1,4 +1,7 @@
 ﻿@model InetForum.Models.CommentsPost
+@*@model PagedList.IPagedList<InetForum.Models.CommentsPost>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
 @{
     ViewBag.Title = "CommentByPost";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,7 +20,7 @@
     <hr />
     <h2> Комментарии:</h2>
 
-    <div>
+    @*<div>
         @foreach (var item in Model.Comments)
         {
             <p class="jumbotron">
@@ -28,7 +31,9 @@
                 <span> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
             }
         }
-    </div>
+    </div>*@
+
+    @Html.Action("PaginationComment")
 
     <hr />
     <p>

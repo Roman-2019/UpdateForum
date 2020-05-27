@@ -1,0 +1,24 @@
+﻿@model PagedList.IPagedList<InetForum.Models.CommentViewModel>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="comments-block">
+        @foreach (var item in Model)
+        {
+            <p class="jumbotron">
+                @Html.DisplayFor(modelItem => item.Text)
+            </p>
+            if (ViewBag.ActiveUserRole[0] == "admin")
+            {
+                <span> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
+            }
+        }
+</div>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) from @Model.PageNumber
+@Html.PagedListPager(Model, page => Url.Action("CommentByPost", new {id=ViewBag.PostId, page}))
