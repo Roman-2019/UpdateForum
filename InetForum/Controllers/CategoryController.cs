@@ -17,10 +17,6 @@ namespace InetForum.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
-        public CategoryController()
-        {
-
-        }
         public CategoryController(ICategoryService service, IMapper mapper)
         {
             _mapper = mapper;

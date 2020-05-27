@@ -21,6 +21,8 @@ namespace InetForum.App_Start
             CreateMap<CommentViewModel, CommentModel>()
                 .ForMember(x => x.AuthorModel, s => s.MapFrom(x => x.AuthorViewModel))
                 .ForMember(x => x.PostModel, s => s.MapFrom(x => x.PostViewModel))
+                .ForMember(x => x.AuthorModelId, s => s.MapFrom(x => x.AuthorViewModelId))
+                .ForMember(x=>x.PostModelId, s => s.MapFrom(x => x.PostViewModelId))
                 .ReverseMap();
             CreateMap<TagViewModel, TagModel>().ReverseMap();
             CreateMap<CategoryViewModel, CategoryModel>().ReverseMap();

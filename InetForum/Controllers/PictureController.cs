@@ -15,10 +15,6 @@ namespace InetForum.Controllers
         private readonly IPictureService _pictureService;
         private readonly IMapper _mapper;
 
-        public PictureController()
-        {
-
-        }
         public PictureController(IPictureService service, IMapper mapper)
         {
             _mapper = mapper;

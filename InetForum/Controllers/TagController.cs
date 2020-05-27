@@ -15,10 +15,6 @@ namespace InetForum.Controllers
         private readonly ITagService _tagService;
         private readonly IMapper _mapper;
 
-        public TagController()
-        {
-
-        }
         public TagController(ITagService service, IMapper mapper)
         {
             _mapper = mapper;

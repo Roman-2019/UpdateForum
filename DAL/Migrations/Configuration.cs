@@ -16,7 +16,7 @@
         }
 
 
-        public class MyContextInitializer : DropCreateDatabaseAlways<DBContext>
+        public class MyContextInitializer : DropCreateDatabaseIfModelChanges<DBContext>
         {
             protected override void Seed(DBContext context)
             {

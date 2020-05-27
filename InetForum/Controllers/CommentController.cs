@@ -14,21 +14,17 @@ namespace InetForum.Controllers
 {
     public class CommentController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IAuthorService _authorService;
         private readonly ICommentService _commentService;
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
 
-        public CommentController()
-        {
-
-        }
-        public CommentController(ICommentService service, IPostService postservice, ICategoryService categoryService, IMapper mapper)
+        public CommentController(ICommentService service, IPostService postservice, IAuthorService authorService, IMapper mapper)
         {
             _mapper = mapper;
             _commentService = service;
             _postService = postservice;
-            _categoryService = categoryService;
+            _authorService = authorService;
         }
 
         public IList<string> GetActiveUserRole()
@@ -79,24 +75,38 @@ namespace InetForum.Controllers
                 PostViewModel = postViewModel
             };
 
+            ViewBag.PostId = commentsList.PostViewModel.Id;
+
             return View(commentsList);
         }
 
         [Authorize]
         // GET: Comment/Create
-        public ActionResult Create()
+        public ActionResult Create(int newPostId, int newAuthorId, DateTime newDataComment)
         {
-            var allCategories = _categoryService.GetAll();
-            var categories = _mapper.Map<IEnumerable<CategoryViewModel>>(allCategories);
-            SelectList selectLists = new SelectList(categories, "Id", "Title");
-            ViewBag.Categories = selectLists;
-            return View();
+            var newComment = new CommentViewModel();
+            newComment.PostViewModelId = newPostId;
+            newComment.AuthorViewModelId = newAuthorId;
+            newComment.DateTime = newDataComment;
+            //var allPosts = _postService.GetAll();
+            //var posts = _mapper.Map<IEnumerable<PostViewModel>>(allPosts);
+            //SelectList selectLists = new SelectList(posts, "Id", "Title");
+            //ViewBag.AllPosts = selectLists;
+            //var allAuthors = _authorService.GetAll();
+            //var authors = _mapper.Map<IEnumerable<AuthorViewModel>>(allAuthors);
+            //SelectList selectList = new SelectList(authors, "Id", "NickName");
+            //ViewBag.AllAuthors = selectList;
+            return View(newComment);
         }
 
         // POST: Comment/Create
         [HttpPost]        
         public ActionResult Create(CommentViewModel model)
         {
+            var newComment = new CommentViewModel();
+            //newComment.AuthorViewModelId = User.Identity.GetUserId();
+            newComment.DateTime = DateTime.Now.Date;
+            //var postId = PostViewModelId;
             if (ModelState.IsValid)
             {
                 var commentModel = _mapper.Map<CommentModel>(model);

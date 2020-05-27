@@ -49,8 +49,10 @@ namespace DAL
             modelBuilder.Entity<Post>()
                 .HasMany(x => x.Comments)
                 .WithRequired(x => x.Post)
-                .HasForeignKey(x => x.PostId);
+                .HasForeignKey(x => x.PostId)
+                .WillCascadeOnDelete(false);
 
+            
             //modelBuilder.Entity<Post>()
             //    .HasMany(x => x.Tags)
             //    .WithRequired(x => x.Post)

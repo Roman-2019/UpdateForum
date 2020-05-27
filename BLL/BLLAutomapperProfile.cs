@@ -24,6 +24,8 @@ namespace BLL
             CreateMap<CommentModel, Comment>()
                 .ForMember(x => x.Post, y => y.MapFrom(x => x.PostModel))
                 .ForMember(x => x.Author, y => y.MapFrom(x => x.AuthorModel))
+                .ForMember(x=>x.AuthorId, y=>y.MapFrom(x=>x.AuthorModelId))
+                .ForMember(x=>x.PostId, y=>y.MapFrom(x=>x.PostModelId))
                 .ReverseMap();
 
             CreateMap<AuthorModel, Author>().ReverseMap();

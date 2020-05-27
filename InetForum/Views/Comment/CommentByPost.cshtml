@@ -11,6 +11,9 @@
     <div>
         @Html.DisplayFor(model => model.PostViewModel.Text)
     </div>
+    @{    
+            ViewBag.PostId=@Html.DisplayFor(model => model.PostViewModel.Id);      
+    }
     <hr />
     <h2> Комментарии:</h2>
 
@@ -29,7 +32,8 @@
 
     <hr />
     <p>
-        @Html.ActionLink("Добавить комментарий", "Create")
+
+        @Html.ActionLink("Добавить комментарий", "Create", new { newPostId=Model.PostViewModel.Id, newAuthorId=Model.PostViewModel.AuthorViewModelId, newDataComment=DateTime.Now.Date},null)
         @*, new { categoryId=Model.PostViewModel.CategoryViewModelId, id=Model.PostViewModel.Id}*@
     </p>
     <hr />
