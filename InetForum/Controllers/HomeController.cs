@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -59,6 +60,57 @@ namespace InetForum.Controllers
             
 
             //url= "http://mourits-lyrics.p.rapidapi.com&appid=SING-UP-FOR-KEY"
+        }
+
+        public ActionResult SendEmail() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendEmail(string yourEmail, string subject, string message)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var fromAddress = new MailAddress("admforum428@gmail.com", yourEmail);
+                    var toAddress = new MailAddress("bardlesswk@gmail.com", "Send from forum");
+
+                    var usr = User.Identity.Name;
+                    var password = "Adminforum123";
+                    var sub = subject;
+                    var body = message+" From "+usr+" on "+ yourEmail;
+                    
+
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(fromAddress.Address, password)
+                    };
+
+                    using (var mess = new MailMessage(fromAddress.Address, toAddress.Address)
+                    {
+                        Subject = sub,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+
+                    return RedirectToAction("Contact","Home");
+                    
+                }               
+            }
+            catch (Exception)
+            {
+                ViewBag.Error = "There are some problem in sending Email";
+            }
+            return View();
         }
 
         [Authorize(Roles = "admin")]

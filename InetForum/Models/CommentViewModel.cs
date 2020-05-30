@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace InetForum.Models
 {
@@ -12,6 +13,7 @@ namespace InetForum.Models
 
         [Required(ErrorMessage = "Text is required")]
         [StringLength(5000, MinimumLength = 1, ErrorMessage = "Please input from 1 to 5000 characters")]
+        [AllowHtml]
         public string Text { get; set; }
 
         [DataType(DataType.Date)]

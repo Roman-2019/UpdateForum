@@ -117,11 +117,13 @@ namespace InetForum.Controllers
         }
 
         // POST: Comment/Create
-        [HttpPost]        
+        [HttpPost]
+        //[ValidateInput(false)]
         public ActionResult Create(CommentViewModel model)
         {
             //newComment.AuthorViewModelId = User.Identity.GetUserId();
             model.DateTime = DateTime.Now.Date;
+            model.Text = model.Text.Replace("<p>", "").Replace("</p>","");
             //var postId = PostViewModelId;
             if (ModelState.IsValid)
             {
