@@ -15,10 +15,6 @@ namespace InetForum.Controllers
         private readonly IAuthorService _authorService;
         private readonly IMapper _mapper;
 
-        public AuthorController()
-        {
-
-        }
         public AuthorController(IAuthorService service, IMapper mapper)
         {
             _mapper = mapper;

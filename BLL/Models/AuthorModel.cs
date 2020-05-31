@@ -16,5 +16,7 @@ namespace BLL.Models
         public ICollection<CommentModel> CommentModels { get; set; }
 
         public ICollection<PostModel> PostModels { get; set; }
+
+        public string IdentityId { get; set; }
     }
 }

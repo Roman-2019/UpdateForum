@@ -81,7 +81,6 @@ namespace InetForum.Controllers
                     var password = "Adminforum123";
                     var sub = subject;
                     var body = message+" From "+usr+" on "+ yourEmail;
-                    
 
                     var smtp = new SmtpClient
                     {
@@ -103,7 +102,6 @@ namespace InetForum.Controllers
                     }
 
                     return RedirectToAction("Contact","Home");
-                    
                 }               
             }
             catch (Exception)

@@ -13,5 +13,7 @@ namespace InetForum.Models
         public string NickName { get; set; }
         public int CountComments { get; set; }
         public string Status { get; set; }
+
+        public string IdentityId { get; set; }
     }
 }

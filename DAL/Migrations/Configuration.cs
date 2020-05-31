@@ -21,10 +21,11 @@
             protected override void Seed(DBContext context)
             {
 
-                context.Authors.Add(new Author { NickName = "Kolya", Status = "user", CountComments = 0 });
-                context.Authors.Add(new Author { NickName = "Vasya", Status = "experienced user", CountComments = 20 });
-                context.Authors.Add(new Author { NickName = "Yura", Status = "advanced user", CountComments = 50 });
-                context.Authors.Add(new Author { NickName = "Kostya", Status = "guru user", CountComments = 100 });
+                context.Authors.Add(new Author { NickName = "Kolya", Status = "user", CountComments = 0, IdentityId= "e456ee65-69ce-4cc8-823b-54378a0980a6" });
+                context.Authors.Add(new Author { NickName = "Vasya", Status = "experienced user", CountComments = 20, IdentityId = "54f6529e-2232-4588-93a4-32926b90e154" });
+                context.Authors.Add(new Author { NickName = "Yura", Status = "advanced user", CountComments = 50, IdentityId = "6654de80-4bc8-4069-a736-36d460eea033" });
+                context.Authors.Add(new Author { NickName = "Kostya", Status = "guru user", CountComments = 100, IdentityId = "2c5ab25f-067d-4491-8d7a-875c5b8fa7fd" });
+                context.Authors.Add(new Author { NickName = "Admin", Status = "admin", CountComments = 1, IdentityId = "3be069f5-b1a8-429d-95ff-340409642c6c" });
 
                 context.Categories.Add(new Category { Title = "Humor", Discription = "A smile is a sign of good mood." });
                 context.Categories.Add(new Category { Title = "Fishing", Discription = "As for fishing - fishing spots, tackle, bait, etc." });

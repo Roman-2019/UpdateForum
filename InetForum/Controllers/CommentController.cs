@@ -77,7 +77,7 @@ namespace InetForum.Controllers
                 PostViewModel = postViewModel
             };
 
-            ViewBag.PostId = commentsList.PostViewModel.Id;
+            //ViewBag.PostId = commentsList.PostViewModel.Id;
 
             return View(commentsList);
         }
@@ -101,10 +101,33 @@ namespace InetForum.Controllers
         // GET: Comment/Create
         public ActionResult Create(int newPostId, int newAuthorId, DateTime newDataComment)
         {
-            var newComment = new CommentViewModel();
-            newComment.PostViewModelId = newPostId;
-            newComment.AuthorViewModelId = newAuthorId;
-            newComment.DateTime = newDataComment;
+           
+                var userName = User.Identity.Name;
+                int pos = userName.LastIndexOf('@');
+                userName = userName.Substring(0, pos);
+
+                var allAuthors = _authorService.GetAll();
+                var authors = _mapper.Map<IEnumerable<AuthorViewModel>>(allAuthors);
+
+                var findAuthor = authors.FirstOrDefault(x => x.NickName == userName);
+                int newIdAutor = findAuthor.Id;
+
+            var newUser = User.Identity.IsAuthenticated;
+            if (newUser == true)
+            {
+                if (findAuthor == null)
+                {
+                    var newModel = new AuthorViewModel
+                    {
+                        NickName = userName,
+                        Status = "user",
+                        CountComments = 0,
+                        IdentityId = User.Identity.GetUserId()
+                    };
+                    var authorModel = _mapper.Map<AuthorModel>(newModel);
+                    _authorService.Add(authorModel);
+                }
+            }
             //var allPosts = _postService.GetAll();
             //var posts = _mapper.Map<IEnumerable<PostViewModel>>(allPosts);
             //SelectList selectLists = new SelectList(posts, "Id", "Title");
@@ -113,6 +136,12 @@ namespace InetForum.Controllers
             //var authors = _mapper.Map<IEnumerable<AuthorViewModel>>(allAuthors);
             //SelectList selectList = new SelectList(authors, "Id", "NickName");
             //ViewBag.AllAuthors = selectList;
+
+            var newComment = new CommentViewModel();
+            newComment.PostViewModelId = newPostId;
+            newComment.AuthorViewModelId = newIdAutor;
+            newComment.DateTime = newDataComment;
+
             return View(newComment);
         }
 
@@ -121,6 +150,7 @@ namespace InetForum.Controllers
         //[ValidateInput(false)]
         public ActionResult Create(CommentViewModel model)
         {
+            
             //newComment.AuthorViewModelId = User.Identity.GetUserId();
             model.DateTime = DateTime.Now.Date;
             model.Text = model.Text.Replace("<p>", "").Replace("</p>","");
@@ -129,7 +159,7 @@ namespace InetForum.Controllers
             {
                 var commentModel = _mapper.Map<CommentModel>(model);
                 _commentService.Add(commentModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("CommentByPost", new { controller = "Comment", action = "CommentByPost", id = model.PostViewModelId});
             }
             return View();
         }

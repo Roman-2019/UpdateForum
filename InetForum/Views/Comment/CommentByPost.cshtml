@@ -13,12 +13,12 @@
     @Html.DisplayFor(model => model.PostViewModel.Title)
     <div>
         @Html.DisplayFor(model => model.PostViewModel.Text)
-    </div>
+    @*</div>
     @{    
             ViewBag.PostId=@Html.DisplayFor(model => model.PostViewModel.Id);      
-    }
+    }*@
     <hr />
-    <h2> Комментарии:</h2>
+    <h2> Comments:</h2>
 
     @*<div>
         @foreach (var item in Model.Comments)
@@ -38,7 +38,7 @@
     <hr />
     <p>
 
-        @Html.ActionLink("Добавить комментарий", "Create", new { newPostId=Model.PostViewModel.Id, newAuthorId=Model.PostViewModel.AuthorViewModelId, newDataComment=DateTime.Now.Date},null)
+        @Html.ActionLink("Add comment", "Create", new { newPostId=Model.PostViewModel.Id, newAuthorId=Model.PostViewModel.AuthorViewModelId, newDataComment=DateTime.Now.Date},null)
         @*, new { categoryId=Model.PostViewModel.CategoryViewModelId, id=Model.PostViewModel.Id}*@
     </p>
     <hr />

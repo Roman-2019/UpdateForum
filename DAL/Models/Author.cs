@@ -16,5 +16,7 @@ namespace DAL.Models
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<Post> Posts { get; set; }
+
+        public string IdentityId { get; set; }
     }
 }

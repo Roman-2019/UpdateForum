@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using InetForum.Models;
+using BLL.Interfaces;
+using AutoMapper;
+using BLL.Models;
 
 namespace InetForum.Controllers
 {
@@ -17,15 +20,19 @@ namespace InetForum.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly IAuthorService _authorService;
+        private readonly IMapper _mapper;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IAuthorService service, IMapper mapper)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _mapper = mapper;
+            _authorService = service;
         }
 
         public ApplicationSignInManager SignInManager
@@ -153,11 +160,25 @@ namespace InetForum.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                //var userName = user.UserName;
+                //int pos = userName.LastIndexOf('@');
+                //userName = userName.Substring(0, pos);
+                //var newModel = new AuthorViewModel
+                //{
+                //    NickName = userName,
+                //    Status = "user",
+                //    CountComments = 0,
+                //    IdentityId = user.Id
+                //};
+                //var authorModel = _mapper.Map<AuthorModel>(newModel);
+                //_authorService.Add(authorModel);
+
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, "user");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.
                     // Отправка сообщения электронной почты с этой ссылкой
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

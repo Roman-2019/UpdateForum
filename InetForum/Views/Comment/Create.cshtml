@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Create comment</h2>
 
 
 @using (Html.BeginForm())
@@ -13,7 +13,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>CommentViewModel</h4>
+        <h4>Add comment to the post </h4>
         <p>@ViewBag.PostId</p>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="visibility:hidden">
             @Html.LabelFor(model => model.AuthorViewModelId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.DropDownListFor(model => model.AuthorViewModelId, ViewBag.AllAuthors as SelectList, new { htmlAttributes = new { @class = "form-control", placeholder = "Choose a category" } })*@
@@ -58,7 +58,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Posts", "CommentByPost", new { controller = "Comment", action = "CommentByPost", id = Model.PostViewModelId})
 </div>
 
 @section Scripts {

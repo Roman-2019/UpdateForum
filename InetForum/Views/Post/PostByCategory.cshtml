@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Темы постов по выбранной Вами категории </h2>
+    <h2>Post topics for your chosen category </h2>
 
 @*<form method="get">
         <div class="form-inline">
@@ -17,8 +17,8 @@
     </form>*@
 <table class="menu-align" style="font-size:larger; width:55%">
     <tr>
-        <th>Категория </th>
-        <th style="padding-left:35px">Тема</th>
+        <th>Category </th>
+        <th style="padding-left:35px">Title post</th>
         <th style="padding-left:35px"></th>
     </tr>
 </table>
@@ -36,7 +36,7 @@
                     </td>
                     <td style="width:20%">
                         @*<a href="~/Post/Details/@item.Id">Go to details</a>*@
-                        @Html.RouteLink("Просмотр", new { controller = "Comment", action = "CommentByPost", id = item.Id })
+                        @Html.RouteLink("Go to view", new { controller = "Comment", action = "CommentByPost", id = item.Id })
                     </td>
                 </tr>
             </table>
