@@ -1,7 +1,4 @@
 ﻿@model InetForum.Models.CommentsPost
-@*@model PagedList.IPagedList<InetForum.Models.CommentsPost>
-@using PagedList.Mvc;
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
 @{
     ViewBag.Title = "CommentByPost";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,33 +10,14 @@
     @Html.DisplayFor(model => model.PostViewModel.Title)
     <div>
         @Html.DisplayFor(model => model.PostViewModel.Text)
-    @*</div>
-    @{    
-            ViewBag.PostId=@Html.DisplayFor(model => model.PostViewModel.Id);      
-    }*@
     <hr />
     <h2> Comments:</h2>
-
-    @*<div>
-        @foreach (var item in Model.Comments)
-        {
-            <p class="jumbotron">
-                @Html.DisplayFor(modelItem => item.Text)
-            </p>
-            if (ViewBag.ActiveUserRole[0] == "admin")
-            {
-                <span> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
-            }
-        }
-    </div>*@
 
     @Html.Action("PaginationComment")
 
     <hr />
     <p>
-
         @Html.ActionLink("Add comment", "Create", new { newPostId=Model.PostViewModel.Id, newAuthorId=Model.PostViewModel.AuthorViewModelId, newDataComment=DateTime.Now.Date},null)
-        @*, new { categoryId=Model.PostViewModel.CategoryViewModelId, id=Model.PostViewModel.Id}*@
     </p>
     <hr />
 </div>

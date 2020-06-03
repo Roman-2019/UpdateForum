@@ -31,10 +31,28 @@
                             <li>@Html.ActionLink("Home page", "Index", "Home")</li>
                             <li>@Html.ActionLink("Information", "About", "Home")</li>
                             <li>@Html.ActionLink("Contacts", "Contact", "Home")</li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
 
-                            <li>@Html.ActionLink("All categoriess", "Index", "Category")</li>
 
-                        </ul>
+
+                            if (@ViewBag.ActiveUserRole[0] == "admin")
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Admin panel
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("All categoriess", "Index", "Category")</li>
+                                        <li>@Html.ActionLink("All posts", "Index", "Post")</li>
+                                        <li>@Html.ActionLink("All authors", "Index", "Author")</li>
+                                        <li>@Html.ActionLink("All comments", "Index", "Comment")</li>
+                                    </ul>
+                                </li>
+                            }
+                            }
+                            </ul>
                         @*<ul class="menu-align">*@
                         @Html.Partial("_LoginPartial")
                         @*</ul>*@
@@ -45,17 +63,6 @@
     </div>
 
     <div class="container body-content">
-
-        @*<div class="wrapper">
-            <aside class="asidebar">
-                <img class="logo" src="~/Images/logo.jpg" />
-            </aside>
-            <div class="title_container">
-                <h1>
-                    MEN'S FORUM
-                </h1>
-            </div>
-        </div>*@
 
 
         @RenderBody()

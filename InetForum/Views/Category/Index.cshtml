@@ -39,7 +39,7 @@
                         <span> @Html.ActionLink("Edit", "Edit", new { id = item.Id }) | @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |</span>
                     }
                     @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
-                    @Html.RouteLink("Просмотр", new { controller = "Post", action = "PostByCategory", id = item.Id })
+                    @Html.RouteLink("Go to view", new { controller = "Post", action = "PostByCategory", id = item.Id })
                 </td>
             </tr>
         }

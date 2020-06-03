@@ -26,9 +26,6 @@ namespace DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Author>()
-            //   .HasMany(p => p.Posts)
-            //   .WithRequired(p => p.Author);
 
             modelBuilder.Entity<Author>()
                 .HasMany(x => x.Posts)
@@ -51,12 +48,6 @@ namespace DAL
                 .WithRequired(x => x.Post)
                 .HasForeignKey(x => x.PostId)
                 .WillCascadeOnDelete(false);
-
-            
-            //modelBuilder.Entity<Post>()
-            //    .HasMany(x => x.Tags)
-            //    .WithRequired(x => x.Post)
-            //    .HasForeignKey(x => x.PostId);
 
         }
 

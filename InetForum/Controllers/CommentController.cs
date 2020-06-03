@@ -45,6 +45,7 @@ namespace InetForum.Controllers
         {
             var allComments = _commentService.GetAll();
             var comments = _mapper.Map<IEnumerable<CommentViewModel>>(allComments);
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View(comments);
         }
 
@@ -53,6 +54,7 @@ namespace InetForum.Controllers
         {
             var commentModel = _commentService.GetById(id);
             var commentViewModel = _mapper.Map<CommentViewModel>(commentModel);
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View(commentViewModel);
         }
 
@@ -65,19 +67,15 @@ namespace InetForum.Controllers
             {
                 comments = comments.Where(x => x.PostViewModel.Id == id);
             }
-
-            //var allPosts = _postService.GetAll();
-            //var posts = _mapper.Map<IEnumerable<PostViewModel>>(allPosts);
             var postModel = _postService.GetById(id);
             var postViewModel = _mapper.Map<PostViewModel>(postModel);
             CommentsPost commentsList = new CommentsPost
             {
                 Comments = comments,
-                //Posts = new SelectList(posts, "Id", "Title ")
                 PostViewModel = postViewModel
             };
 
-            //ViewBag.PostId = commentsList.PostViewModel.Id;
+            ViewBag.ActiveUserRole = GetActiveUserRole();
 
             return View(commentsList);
         }
@@ -128,20 +126,12 @@ namespace InetForum.Controllers
                     _authorService.Add(authorModel);
                 }
             }
-            //var allPosts = _postService.GetAll();
-            //var posts = _mapper.Map<IEnumerable<PostViewModel>>(allPosts);
-            //SelectList selectLists = new SelectList(posts, "Id", "Title");
-            //ViewBag.AllPosts = selectLists;
-            //var allAuthors = _authorService.GetAll();
-            //var authors = _mapper.Map<IEnumerable<AuthorViewModel>>(allAuthors);
-            //SelectList selectList = new SelectList(authors, "Id", "NickName");
-            //ViewBag.AllAuthors = selectList;
-
             var newComment = new CommentViewModel();
             newComment.PostViewModelId = newPostId;
             newComment.AuthorViewModelId = newIdAutor;
             newComment.DateTime = newDataComment;
 
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View(newComment);
         }
 
@@ -150,8 +140,6 @@ namespace InetForum.Controllers
         //[ValidateInput(false)]
         public ActionResult Create(CommentViewModel model)
         {
-            
-            //newComment.AuthorViewModelId = User.Identity.GetUserId();
             model.DateTime = DateTime.Now.Date;
             model.Text = model.Text.Replace("<p>", "").Replace("</p>","");
             //var postId = PostViewModelId;
@@ -161,15 +149,19 @@ namespace InetForum.Controllers
                 _commentService.Add(commentModel);
                 return RedirectToAction("CommentByPost", new { controller = "Comment", action = "CommentByPost", id = model.PostViewModelId});
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Comment/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Comment/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, CommentViewModel model)
@@ -181,15 +173,19 @@ namespace InetForum.Controllers
 
                 return RedirectToAction("Index");
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Comment/Delete/5
         public ActionResult Delete(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Comment/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, CommentViewModel model)
@@ -198,10 +194,12 @@ namespace InetForum.Controllers
             {
                 // TODO: Add delete logic here
                 _commentService.Remove(id);
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return RedirectToAction("Index");
             }
             catch
             {
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return View();
             }
         }

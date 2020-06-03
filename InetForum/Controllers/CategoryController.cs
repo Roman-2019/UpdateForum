@@ -48,15 +48,19 @@ namespace InetForum.Controllers
         {
             var categoryModel = _categoryService.GetById(id);
             var categoryViewModel = _mapper.Map<CategoryViewModel>(categoryModel);
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View(categoryViewModel);
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Category/Create
         public ActionResult Create()
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Category/Create
         [HttpPost]
         public ActionResult Create(CategoryViewModel model)
@@ -65,17 +69,22 @@ namespace InetForum.Controllers
             {
                 var categoryModel = _mapper.Map<CategoryModel>(model);
                 _categoryService.Add(categoryModel);
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return RedirectToAction("Index");
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Category/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Category/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, CategoryViewModel model)
@@ -84,18 +93,22 @@ namespace InetForum.Controllers
             {
                 var categoryModel = _mapper.Map<CategoryModel>(model);
                 _categoryService.Update(categoryModel);
-
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return RedirectToAction("Index");
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Category/Delete/5
         public ActionResult Delete(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Category/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, CategoryViewModel model)
@@ -108,6 +121,7 @@ namespace InetForum.Controllers
             }
             catch
             {
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return View();
             }
         }

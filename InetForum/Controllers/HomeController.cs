@@ -29,6 +29,18 @@ namespace InetForum.Controllers
             _mapper = mapper;
             _categoryService = service;
         }
+
+        public IList<string> GetActiveUserRole()
+        {
+            IList<string> roles = new List<string> { "Роль не определена" };
+            ApplicationUserManager userManager = HttpContext.GetOwinContext()
+                                                    .GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = userManager.FindByEmail(User.Identity.Name);
+            if (user != null)
+                roles = userManager.GetRoles(user.Id);
+            return new List<string>(roles);
+        }
+
         public ActionResult Index()
         {
             var allCategories = _categoryService.GetAll();
@@ -36,7 +48,8 @@ namespace InetForum.Controllers
             ViewBag.Categories = categories;
 
             ViewBag.OpenWeathers = OpenWeatherMap();
-            //ViewBag.ActiveUserRole = GetActiveUserRole();
+
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             
             return View();
         }
@@ -57,13 +70,11 @@ namespace InetForum.Controllers
             WeatherResponse weatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(response);
 
             return new string[] { weatherResponse.Name, weatherResponse.Main.Temp.ToString() };
-            
-
-            //url= "http://mourits-lyrics.p.rapidapi.com&appid=SING-UP-FOR-KEY"
         }
 
         public ActionResult SendEmail() 
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
@@ -100,7 +111,7 @@ namespace InetForum.Controllers
                     {
                         smtp.Send(mess);
                     }
-
+                    ViewBag.ActiveUserRole = GetActiveUserRole();
                     return RedirectToAction("Contact","Home");
                 }               
             }
@@ -108,14 +119,14 @@ namespace InetForum.Controllers
             {
                 ViewBag.Error = "There are some problem in sending Email";
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
-        [Authorize(Roles = "admin")]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+            ViewBag.Message = "Для начала работы выберите интерессующию Вас категорию.";
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
@@ -123,7 +134,7 @@ namespace InetForum.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
     }

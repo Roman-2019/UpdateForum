@@ -10,14 +10,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-//using InetForum.Service;
 
 namespace InetForum.Controllers
 {
     public class PostController : Controller
     {
-        //private readonly ActiveUserRole activeUserRole;
-
         private readonly IPostService _postService;
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
@@ -38,8 +35,6 @@ namespace InetForum.Controllers
             if (user != null)
                 roles = userManager.GetRoles(user.Id);
             return new List<string>(roles);
-            //ViewBag.ActiveUserRole = new List<string>(roles);
-            //return View(roles);
         }
 
 
@@ -57,6 +52,7 @@ namespace InetForum.Controllers
         {
             var postModel = _postService.GetById(id);
             var postViewModel = _mapper.Map<PostViewModel>(postModel);
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View(postViewModel);
         }
 
@@ -79,16 +75,20 @@ namespace InetForum.Controllers
             };
 
             ViewBag.CategoryTitle = postsList.Categories;
+            ViewBag.ActiveUserRole = GetActiveUserRole();
 
             return View(postsList);
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Post/Create
         public ActionResult Create()
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Post/Create
         [HttpPost]
         public ActionResult Create(PostViewModel model)
@@ -97,17 +97,22 @@ namespace InetForum.Controllers
             {
                 var postModel = _mapper.Map<PostModel>(model);
                 _postService.Add(postModel);
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return RedirectToAction("Index");
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Post/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Post/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, PostViewModel model)
@@ -116,18 +121,22 @@ namespace InetForum.Controllers
             {
                 var postModel = _mapper.Map<PostModel>(model);
                 _postService.Update(postModel);
-
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return RedirectToAction("Index");
             }
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
+            ViewBag.ActiveUserRole = GetActiveUserRole();
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         // POST: Post/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, PostViewModel model)
@@ -136,10 +145,12 @@ namespace InetForum.Controllers
             {
                 // TODO: Add delete logic here
                 _postService.Remove(id);
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return RedirectToAction("Index");
             }
             catch
             {
+                ViewBag.ActiveUserRole = GetActiveUserRole();
                 return View();
             }
         }

@@ -20,10 +20,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.TextAreaFor(model => model.Text, new { @class = "ckeditor"  })
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
-                @*<script>CKEDITOR.editorConfig.replace("ckeditor");</script>*@
             </div>
         </div>
 
@@ -31,11 +29,7 @@
         <div class="form-group" style="visibility:hidden">
             @Html.LabelFor(model => model.PostViewModelId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@foreach (var model in ViewBag.AllPosts)
-                {*@
-                    @*@Html.DropDownListFor(model => model.PostViewModelId, ViewBag.AllPosts as SelectList, new { htmlAttributes = new { @class = "form-control", placeholder = "Choose a category" } })*@
                     @Html.EditorFor(model => model.PostViewModelId, new { htmlAttributes = new { @class = "form-control", placeholder = "Choose a category" } })
-                @*}*@
                 @Html.ValidationMessageFor(model => model.PostViewModelId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -43,7 +37,6 @@
         <div class="form-group" style="visibility:hidden">
             @Html.LabelFor(model => model.AuthorViewModelId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @*@Html.DropDownListFor(model => model.AuthorViewModelId, ViewBag.AllAuthors as SelectList, new { htmlAttributes = new { @class = "form-control", placeholder = "Choose a category" } })*@
                 @Html.EditorFor(model => model.AuthorViewModelId, new { htmlAttributes = new { @class = "form-control", placeholder = "Choose a category" } })
                 @Html.ValidationMessageFor(model => model.AuthorViewModelId, "", new { @class = "text-danger" })
             </div>
