@@ -223,7 +223,6 @@
     <Compile Include="Models\TemperatureInfo.cs" />
     <Compile Include="Models\WeatherResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\ActiveUserRole.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
