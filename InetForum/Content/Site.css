@@ -51,6 +51,7 @@ textarea {
 
 .index-category {
     margin-left: 25px;
+
 }
 
 .center-text {
@@ -60,10 +61,14 @@ textarea {
 .header-color {
     background: white;
     border-bottom-width: 0px;
+    color: white;
 }
 
 .menu-color {
-    background: green;
+    background: black;
+    color:white;
+    font-size:20px;
+    text-decoration:none;
 }
 
 .design-table {
@@ -79,4 +84,10 @@ textarea {
     /*width:40%;*/
     align-items:center;
     margin-right:15px;
+}
+.img-mystyle {
+    display:block;
+    width:100%;
+    height: 600px !important;
+    margin:0 auto;
 }
